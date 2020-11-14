@@ -60,7 +60,7 @@ def imgfusion(img1, img2, ftype, wtype):
     return pywt.idwt2(output, wtype, mode='periodization')
     
     
-    fusedimgR = imgfusion(img1[:,:,0], img2[:,:,0], 'Max_Max', 'coif5')
+fusedimgR = imgfusion(img1[:,:,0], img2[:,:,0], 'Max_Max', 'coif5')
 fusedimgG = imgfusion(img1[:,:,1], img2[:,:,1], 'Max_Max', 'coif5')
 fusedimgB = imgfusion(img1[:,:,2], img2[:,:,2], 'Max_Max', 'coif5')
 if col_not_compa:
@@ -71,10 +71,13 @@ if row_not_compa:
     fusedimgR = np.delete(fusedimgR, -1, axis=0)
     fusedimgG = np.delete(fusedimgG, -1, axis=0)
     fusedimgB = np.delete(fusedimgB, -1, axis=0)
+    
 fused_image = copy(img2)
 fused_image[:,:,0] = np.uint8(fusedimgR)
 fused_image[:,:,1] = np.uint8(fusedimgG)
 fused_image[:,:,2] = np.uint8(fusedimgB)
+path = filedialog.askdirectory()
+cv2.imwrite(path+'/fusedimage.jpg', fused_image)
 
 plt.figure(figsize=(10, 10))
 plt.subplot(2, 2, 1)
