@@ -79,14 +79,14 @@ fused_image[:,:,2] = np.uint8(fusedimgB)
 plt.figure(figsize=(10, 10))
 plt.subplot(2, 2, 1)
 plt.imshow(img1)
-plt.title('dsfdsfsdf', fontsize=30)
+plt.title('Image 1', fontsize=30)
 
 plt.subplot(2, 2, 2)
 plt.imshow(img2)
-plt.title('dsfdsfsdf', fontsize=30)
+plt.title('Image 2', fontsize=30)
 
 plt.subplot(2, 2, 3)
 plt.imshow(fused_image)
-plt.title('dsfdsfsdf', fontsize=30)
+plt.title('Fused Image', fontsize=30)
 
 plt.show()
