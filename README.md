@@ -10,4 +10,5 @@ This final image can be again used as input to get desired resultant output imag
 
 ![Screenshot from 2020-11-14 21-32-46](https://user-images.githubusercontent.com/44977226/99151417-01763600-26c1-11eb-8b95-1bfde185d500.png)
 
-!![Screenshot from 2020-11-14 20-53-57](https://user-images.githubusercontent.com/44977226/99150576-970ec700-26bb-11eb-8ac0-0c4da8054aef.png)
+
+![Screenshot from 2020-11-15 17-02-39](https://user-images.githubusercontent.com/44977226/99183798-7c445d00-2764-11eb-8aae-95de0fdd1fb1.png)
