@@ -3,7 +3,7 @@ This project is based on Discrete wavelet transform to collect all the important
 
 The resultant image is much more accurate and helps in reducing the amount of data.
 
-Firstly, using Discrete wavelet transform, images are decomposed into wavelet coefficients which converts them into four metrics(size reduces to half). Then both decomposed images are fused together by appling mathematical operation. Then Inverse discrete wavelet transform is applied to the resultant image(size gets double) to give the final image.
+Firstly, using Discrete wavelet transform, images are decomposed into wavelet coefficients which converts them into four metrics(size reduces to half). Then both decomposed images are fused together by appling mathematical operation(according to need). Then Inverse discrete wavelet transform is applied to the resultant image(size gets double) to give the final image.
 
 This final image can be again used as input to get desired resultant output image.
 
