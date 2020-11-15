@@ -7,23 +7,17 @@ from copy import copy
 from tkinter import filedialog
 import tkinter as tk
 
+def main():
+    root = tk.Tk()
+    root.withdraw()
+    path = filedialog.askopenfilename()
+    img1 = mpimg.imread(path)
+    path = filedialog.askopenfilename()
+    img2 = mpimg.imread(path)
+    return [img1, img2]
 
-root = tk.Tk()
-root.withdraw()
-path = filedialog.askopenfilename()
-img1 = cv2.imread(path)
-path = filedialog.askopenfilename()
-img2 = cv2.imread(path)
-row_not_compa, col_not_compa = False, False
-
-if img1.shape != img2.shape:
-    print('Image size is different. This can lead to distortion.')
-if img1[:,:,0].shape[0] % 2 != 0:
-    row_not_compa = True
-if img1[:,:,0].shape[1] % 2 != 0:
-    col_not_compa = True
     
-dispatcher = {'Max': np.maximum, 'Mean':np.mean, 'Min': np.minimum}
+
 def imgfusion(img1, img2, ftype, wtype):
     cA_conv, rest = ftype.split('_')
     temp = pywt.dwt2(img1, 'coif5' , mode='periodization')
@@ -58,38 +52,51 @@ def imgfusion(img1, img2, ftype, wtype):
     output = tuple([cH, cV, cD])
     output = tuple([cA, output])
     return pywt.idwt2(output, wtype, mode='periodization')
-    
-    
-fusedimgR = imgfusion(img1[:,:,0], img2[:,:,0], 'Max_Max', 'coif5')
-fusedimgG = imgfusion(img1[:,:,1], img2[:,:,1], 'Max_Max', 'coif5')
-fusedimgB = imgfusion(img1[:,:,2], img2[:,:,2], 'Max_Max', 'coif5')
-if col_not_compa:
-    fusedimgR = np.delete(fusedimgR, -1, axis=1)
-    fusedimgG = np.delete(fusedimgG, -1, axis=1)
-    fusedimgB = np.delete(fusedimgB, -1, axis=1)
-if row_not_compa:
-    fusedimgR = np.delete(fusedimgR, -1, axis=0)
-    fusedimgG = np.delete(fusedimgG, -1, axis=0)
-    fusedimgB = np.delete(fusedimgB, -1, axis=0)
-    
-fused_image = copy(img2)
-fused_image[:,:,0] = np.uint8(fusedimgR)
-fused_image[:,:,1] = np.uint8(fusedimgG)
-fused_image[:,:,2] = np.uint8(fusedimgB)
-path = filedialog.askdirectory()
-cv2.imwrite(path+'/fusedimage.jpg', fused_image)
 
-plt.figure(figsize=(10, 10))
-plt.subplot(2, 2, 1)
-plt.imshow(img1)
-plt.title('Image 1', fontsize=30)
+def getf(col_not_compa, row_not_compa, img1, img2):
+    fusedimgR = imgfusion(img1[:,:,0], img2[:,:,0], 'Max_Min', 'coif5')
+    fusedimgG = imgfusion(img1[:,:,1], img2[:,:,1], 'Max_Min', 'coif5')
+    fusedimgB = imgfusion(img1[:,:,2], img2[:,:,2], 'Max_Min', 'coif5')
+    if col_not_compa:
+        fusedimgR = np.delete(fusedimgR, -1, axis=1)
+        fusedimgG = np.delete(fusedimgG, -1, axis=1)
+        fusedimgB = np.delete(fusedimgB, -1, axis=1)
+    if row_not_compa:
+        fusedimgR = np.delete(fusedimgR, -1, axis=0)
+        fusedimgG = np.delete(fusedimgG, -1, axis=0)
+        fusedimgB = np.delete(fusedimgB, -1, axis=0)
 
-plt.subplot(2, 2, 2)
-plt.imshow(img2)
-plt.title('Image 2', fontsize=30)
+    fused_image = copy(img2)
+    fused_image[:,:,0] = np.uint8(fusedimgR)
+    fused_image[:,:,1] = np.uint8(fusedimgG)
+    fused_image[:,:,2] = np.uint8(fusedimgB)
+    path = filedialog.askdirectory()
+    cv2.imwrite(path+'/fusedimage.jpg', fused_image)
+    return fused_image
 
-plt.subplot(2, 2, 3)
-plt.imshow(fused_image)
-plt.title('Fused Image', fontsize=30)
+if __name__ == '__main__':
+    images = main()
+    img1, img2 = images[0], images[1]
+    dispatcher = {'Max': np.maximum, 'Mean':np.mean, 'Min': np.minimum}
+    row_not_compa, col_not_compa = False, False
+    if img1.shape != img2.shape:
+        print('Image size is different. This can lead to distortion.')
+    if img1[:,:,0].shape[0] % 2 != 0:
+        row_not_compa = True
+    if img1[:,:,0].shape[1] % 2 != 0:
+        col_not_compa = True
+        
+    fused_image = getf(col_not_compa, row_not_compa, img1, img2)
+    plt.figure(figsize=(30, 40))
+    plt.subplot(3, 3, 1)
+    plt.imshow(img1)
+    plt.title('Image 1', fontsize=30)
 
-plt.show()
+    plt.subplot(3, 3, 2)
+    plt.imshow(img2)
+    plt.title('Image 2', fontsize=30)
+
+    plt.subplot(3, 3, 3)
+    plt.imshow(fused_image)
+    plt.title('Fused Image', fontsize=30)
+    plt.show()
