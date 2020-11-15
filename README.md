@@ -7,7 +7,8 @@ Firstly, using Discrete wavelet transform, images are decomposed into wavelet co
 
 This final image can be again used as input to get desired resultant output image.
 
-# EXAMPLE
+**EXAMPLES **
+
 ![Screenshot from 2020-11-14 21-32-46](https://user-images.githubusercontent.com/44977226/99151417-01763600-26c1-11eb-8b95-1bfde185d500.png)
 
 
